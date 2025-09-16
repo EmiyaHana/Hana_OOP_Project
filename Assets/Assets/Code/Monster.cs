@@ -1,33 +1,8 @@
-using NUnit.Framework;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Monster
+public class Monster : Character
 {
-    private string name;
-    public string Name
-    {
-        get { return name; }
-        set
-        {
-            if (string.IsNullOrEmpty(value)) { name = "Unknown Monster"; }
-            else { name = value; }
-        }
-    }
-
-    private int health;
-    public int Health
-    {
-        get { return health; }
-        set
-        {
-            if (value >= 0) health = value;
-            else health = 0;
-        }
-    }
-
-    public int AttackPower { get; private set; }
-
     private int lootReward;
     public int LootReward
     { 
@@ -38,35 +13,20 @@ public class Monster
             else { lootReward = value; }
         } 
     }
-
+    
     private bool defeated = false;
 
-    public Monster(string newName, int newHP, int newAttackPower, int newLootReward)
+    public void Init(string newName, int newHP, int newAttackPower, int newLootReward)
     {
-        Name = newName;
-        Health = newHP;
-        AttackPower = newAttackPower;
+        base.Init(newName, newHP, newAttackPower);
         LootReward = newLootReward;
     }
 
-    public void ShowStat()
+    public override void ShowStat()
     {
-        Debug.Log($"Monster : {Name} | HP : {Health} | Attack Power : {AttackPower} | Loot Reward : {LootReward}");
+        base.ShowStat();
+        Debug.Log($"Lootings : {LootReward}");
     }
-
-    public void TakeDamage(int damageValue)
-    {
-        Health -= damageValue;
-        Debug.Log($"Player Take {damageValue} Damage");
-    }
-
-    public void Attack(Hero target)
-    {
-        Debug.Log($"(Name) attacks {target.Name} for {AttackPower} damage!");
-        target.TakeDamage(AttackPower);
-    }
-
-    public bool IsAlive() { return health > 0; }
 
     public int DropReward()
     {

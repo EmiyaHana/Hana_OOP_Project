@@ -1,28 +1,8 @@
-using NUnit.Framework;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Hero
+public class Hero : Character
 {
-    private string name;
-    public string Name
-    {
-        get { return name; }
-        set 
-        { if (string.IsNullOrEmpty(value)) { name = "Unknown Hero"; }
-          else { name = value; }
-        }
-    }
-
-    private int health;
-    public int Health 
-    {
-        get { return health; }
-        set { if (value >= 0) health = value;
-            else health = 0;
-        }
-    }
-
     private int gold;
     public int Gold
     { 
@@ -35,30 +15,16 @@ public class Hero
         }
     }
 
-    public Hero(string newName, int newHP, int newAttackPower)
+    public override void Init(string newName, int newHP, int newAttackPower)
     {
-        Name = newName;
-        Health = newHP;
-        AttackPower = newAttackPower;
+        base.Init(newName, newHP, newAttackPower);
         Gold = 10;
     }
 
-    public int AttackPower { get; private set; }
-
-    public void ShowStat()
+    public override void ShowStat()
     {
-        Debug.Log($"Hero : {Name} | HP : {Health} | Gold : {Gold}");
-    }
-
-    public void TakeDamage(int damageValue)
-    {
-        Health -= damageValue;
-    }
-
-    public void Attack(Monster target)
-    {
-        Debug.Log($"(Name) attacks {target.Name} for {AttackPower} damage!");
-        target.TakeDamage(AttackPower);
+        base.ShowStat();
+        Debug.Log($"Gold : {Gold}");
     }
 
     public void EarnGold(int amount)
@@ -68,6 +34,4 @@ public class Hero
             Gold += amount;
         }
     }
-
-    public bool IsAlive() { return health > 0; }
 }
