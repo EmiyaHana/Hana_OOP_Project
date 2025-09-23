@@ -30,7 +30,7 @@ public class Hero : Character
     {
         //base.Attack(target);
         target.TakeDamage(AttackPower);
-        Debug.Log($"{Name} slashes {target.Name} for {AttackPower} damage!");
+        Debug.Log($"{target.Name} slashes {target.Name} for {AttackPower} damage!");
     }
 
     public override void Attack(Character target, int bonusDamage)
@@ -38,7 +38,7 @@ public class Hero : Character
         //base.Attack(target);
         Debug.Log($"{Name} smites {target.Name} for {AttackPower + bonusDamage} damage!");
         target.TakeDamage(AttackPower + bonusDamage);
-        Debug.Log($"{Name} take {AttackPower + bonusDamage} damage!");
+        Debug.Log($"{target.Name} take {AttackPower + bonusDamage} damage!");
     }
 
     /*public override void Ondefeated()
