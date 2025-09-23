@@ -1,4 +1,6 @@
+using System.Diagnostics;
 using UnityEngine;
+using Debug = UnityEngine.Debug;
 
 public abstract class Character : MonoBehaviour
 {
@@ -7,20 +9,23 @@ public abstract class Character : MonoBehaviour
     {
         get { return name; }
         set 
-        { if (string.IsNullOrEmpty(value)) { name = "Unknown Hero"; }
+        { if (string.IsNullOrEmpty(value)) { name = "Unknown"; }
           else { name = value; }
         }
     }
 
-    private int health;
+    public int Health { get; protected set; }
+    protected int maxHealth = 200;
+
+    /*private int health;
     public int Health 
     {
         get { return health; }
         set { if (value >= 0) health = value;
             else health = 0;
         }
-    }
-
+    }*/
+    
     public int AttackPower { get; set; }
 
     public virtual void Init(string newName, int newHP, int newAttackPower)
@@ -37,14 +42,23 @@ public abstract class Character : MonoBehaviour
 
     public void TakeDamage(int damageValue)
     {
-        Health -= damageValue;
+        /*Health -= damageValue;*/
+
+        Health = Mathf.Clamp(Health - damageValue, 0, maxHealth);
+        /*if (Health < 0) Health = 0;
+        else if (Health >= maxHealth) Health = maxHealth;*/
     }
 
-    public void Attack(Monster target)
+    public abstract void Attack(Character Target);
+
+    public abstract void Attack(Character Target, int bonusDamage);
+
+    //public abstract OnDefeated();
+
+    /*public virtual void Attack(Character target)
     {
-        Debug.Log($"(Name) attacks {target.Name} for {AttackPower} damage!");
         target.TakeDamage(AttackPower);
-    }
+    }*/
 
     public bool IsAlive() { return Health > 0; }
 }

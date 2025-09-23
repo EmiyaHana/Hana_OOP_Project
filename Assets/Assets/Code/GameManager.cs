@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
+using Debug = UnityEngine.Debug;
 
 public class GameManager : MonoBehaviour
 {
@@ -16,7 +18,28 @@ public class GameManager : MonoBehaviour
         hero.Init("GMan", 100, 20);
         hero.ShowStat();
 
-        currentMonster = Instantiate(monsterPreFabs[0]);
+        SpawnMonster(MonsterType.POE);
+        SpawnMonster(MonsterType.RLCraft);
+        SpawnMonster(MonsterType.ROBlox);
+        SpawnMonster(MonsterType.Zomboid);
+
+        foreach (var monster in monsters)
+        {
+            monster.ShowStat();
+        }
+
+        currentMonster = monsters[0];
+
+        Debug.Log("Monster has arrived... Battle!");
+
+        currentMonster = monsters[0];
+
+        hero.Attack(currentMonster, 10);
+        currentMonster.Attack(hero, 5);
+        hero.ShowStat();
+        currentMonster.ShowStat();
+
+        /*currentMonster = Instantiate(monsterPreFabs[0]);
         currentMonster.Init("POE", 200, 20, 50);
         monsters.Add(currentMonster);
 
@@ -35,36 +58,17 @@ public class GameManager : MonoBehaviour
         foreach (var monster in monsters)
         {
             monster.ShowStat();
-        }
+        }*/
+    }
 
-        /*Hero G = new Hero("GMan", 100, 20);
-        
-        Monster Mon1 = new Monster("RLCraft", 80, 5, 15);
-        Monster Mon2 = new Monster("Zomboid", 75, 10, 10);
-        Monster Mon3 = new Monster("ROBlox", 100, 15, 25);
+    public void SpawnMonster(MonsterType monType)
+    {
+        Monster monstersPreFabs = monsterPreFabs[(int)monType];
 
-        monsters.Add(Mon1);
-        monsters.Add(Mon2);
-        monsters.Add(Mon3);
-        monsters.Add(new Monster("POE", 200, 20, 50));
+        Monster monsterObj = Instantiate(monstersPreFabs);
 
-        G.ShowStat();
-        
-        foreach (var m in monsters)
-        {
-            m.ShowStat();
-        }
+        monsterObj.Init(monType);
 
-        Mon1.ShowStat();
-
-        G.Attack(Mon1);
-
-        Mon1.ShowStat();
-
-        G.ShowStat();
-
-        Mon1.Attack(G);
-
-        G.ShowStat();*/
+        monsters.Add(monsterObj);
     }
 }
