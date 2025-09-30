@@ -60,7 +60,7 @@ public abstract class Monster : Character
         //base.Attack(target);
         Debug.Log($"{Name} clashes {target.Name} for {(AttackPower * 2) + (bonusDamage / 2)} damage!");
         target.TakeDamage((AttackPower * 2) + (bonusDamage / 2));
-        Debug.Log($"{Name} take {(AttackPower * 2) + (bonusDamage / 2)} damage!");
+        Debug.Log($"{target.Name} take {(AttackPower * 2) + (bonusDamage / 2)} damage!");
     }
 
     public override void OnDefeated()
