@@ -4,6 +4,8 @@ using Debug = UnityEngine.Debug;
 
 public abstract class Character : MonoBehaviour
 {
+    public Weapon EquippedWeapon {  get; private set; }
+
     private string name;
     public string Name
     {
@@ -16,15 +18,6 @@ public abstract class Character : MonoBehaviour
 
     public int Health { get; protected set; }
     protected int maxHealth = 200;
-
-    /*private int health;
-    public int Health 
-    {
-        get { return health; }
-        set { if (value >= 0) health = value;
-            else health = 0;
-        }
-    }*/
     
     public int AttackPower { get; set; }
 
@@ -35,6 +28,11 @@ public abstract class Character : MonoBehaviour
         AttackPower = newAttackPower;
     }
 
+    public void EquipWeapon(Weapon weapon)
+    {
+        EquippedWeapon = weapon;
+    }
+
     public virtual void ShowStat()
     {
         Debug.Log($"Name : {Name} | HP : {Health} | Atk. Power : {AttackPower}");
@@ -42,23 +40,25 @@ public abstract class Character : MonoBehaviour
 
     public void TakeDamage(int damageValue)
     {
-        /*Health -= damageValue;*/
-
         Health = Mathf.Clamp(Health - damageValue, 0, maxHealth);
-        /*if (Health < 0) Health = 0;
-        else if (Health >= maxHealth) Health = maxHealth;*/
     }
 
     public abstract void Attack(Character Target);
 
     public abstract void Attack(Character Target, int bonusDamage);
 
-    //public abstract OnDefeated();
-
-    /*public virtual void Attack(Character target)
+    public virtual  void Attack(Character Target, Weapon weapon)
     {
-        target.TakeDamage(AttackPower);
-    }*/
+        if (weapon != null)
+        {
+            int damage = AttackPower + weapon.BonusDamage;
+            Target.TakeDamage(damage);
+            Debug.Log($"{Name} uses {weapon.WeaponName} with bonus {weapon.BonusDamage} | " +
+                $"Total Damage : {damage} to {Target.Name}.");
+        }
+    }
+
+    public abstract void OnDefeated();
 
     public bool IsAlive() { return Health > 0; }
 }

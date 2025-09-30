@@ -41,10 +41,11 @@ public class Hero : Character
         Debug.Log($"{Name} take {AttackPower + bonusDamage} damage!");
     }
 
-    /*public override void Ondefeated()
+    public override void OnDefeated()
     {
-
-    }*/
+        Debug.Log($"{name} has been defeated.");
+        Debug.Log("You lost.");
+    }
 
     public void EarnGold(int amount)
     {

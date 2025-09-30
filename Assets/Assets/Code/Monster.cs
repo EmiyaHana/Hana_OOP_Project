@@ -2,32 +2,23 @@ using System.Collections.Generic;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
 
-public enum MonsterType
+/*public enum MonsterType
 {
     POE,
     RLCraft,
     ROBlox,
     Zomboid
-}
+}*/
 
-public class Monster : Character
+public abstract class Monster : Character
 {
-    private int lootReward;
-    public int LootReward
-    { 
-        get { return lootReward; }
-        set 
-        { 
-            if (value < 0) {  lootReward = 0; } 
-            else { lootReward = value; }
-        } 
-    }
+    public abstract int LootReward { get;  }
 
-    public MonsterType monType { get; private set; }
+    //public MonsterType monType { get; private set; }
 
     private bool defeated = false;
 
-    public void Init(MonsterType monType)
+    /*public void Init(MonsterType monType)
     {
         switch (monType)
         {
@@ -48,7 +39,9 @@ public class Monster : Character
                 LootReward = 10;
                 break;
         }
-    }
+    }*/
+
+    public abstract void Roar();
 
     public override void ShowStat()
     {
@@ -70,10 +63,10 @@ public class Monster : Character
         Debug.Log($"{Name} take {(AttackPower * 2) + (bonusDamage / 2)} damage!");
     }
 
-    /*public override void Ondefeated()
+    public override void OnDefeated()
     {
-
-    }*/
+        Debug.Log($"{name} has been defeated.");
+    }
 
     public int DropReward()
     {
